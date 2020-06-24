@@ -7,8 +7,8 @@
     :center="center"
     :zoom="zoom"
   >
+    <MglMarker :coordinates="coordinates" color="blue" />
   </MglMap>
-    <!-- <MglMarker :coordinates="coordinates" color="blue" /> -->
 </div>
 </template>
 
@@ -32,6 +32,7 @@ export default class extends Vue {
   mapStyle = 'mapbox://styles/kk-kaori/ckbrxmui90lc11ilzmyv5vwzm'
   center = [143.767125, 38.681236]
   zoom = 2
+  coordinates = []
 
   created() {
     // We need to set mapbox-gl library here in order to use it in template
@@ -41,12 +42,14 @@ export default class extends Vue {
   fetchMap(e){
     if(e.key == 'Enter'){
       fetch(`${this.base_url}${this.query}.json?limit=1&access_token=${this.accessToken}`)
-        .then(res => {
-          return res.json();
-        }).then(data => {
-          console.log(data.features[0].center)
-          //return 0 for longtitude, 1 for latitude
-        })
+      .then(res => {
+        return res.json();
+      }).then(data => {
+        this.coordinates = [data.features[0].bbox[0], data.features[0].bbox[1]]
+        console.log(this.coordinates)
+        console.log(data)
+        
+      })
     }
   }
 }
@@ -55,8 +58,10 @@ export default class extends Vue {
 </script>
 
 <!-- Add "scoped" attribute to limit CSS to this component only -->
-<style scoped>
-*{
+<style lang="scss">
+  @import 'mapbox-gl/dist/mapbox-gl';
+
+  *{
   margin: 0;
   padding: 0;
 }
@@ -64,4 +69,10 @@ export default class extends Vue {
 #map {
   margin: 0 auto;
 }
+
+.mgl-map-wrapper {
+  height: 500px;
+}
+
 </style>
+
