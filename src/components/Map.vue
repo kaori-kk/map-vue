@@ -7,7 +7,9 @@
     :center="center"
     :zoom="zoom"
   >
-    <MglMarker v-for="(coordinate, index) in coordinates" :key="index" :coordinates="[coordinates[0].lng, coordinates[0].lat]" color="blue"/>
+    <div v-for="(coordinate, index) in coordinates" :key="index">
+      <MglMarker :coordinates="[coordinate.lng, coordinate.lat]" color="blue"/>
+    </div>
   </MglMap>
 </div>
 </template>
@@ -16,7 +18,6 @@
 import { Component, Vue } from "vue-property-decorator";
 import { MglMap, MglMarker } from "vue-mapbox";
 import Mapbox from "mapbox-gl";
-// import { MarkerOptions, LngLat, LngLatLike } from "mapbox-gl";
 
 @Component({
   components: {
@@ -33,7 +34,6 @@ export default class extends Vue {
   center = [143.767125, 38.681236]
   zoom = 2
   coordinates = []
-  markers = []
 
   created() {
     // We need to set mapbox-gl library here in order to use it in template
@@ -46,7 +46,6 @@ export default class extends Vue {
       .then(res => {
         return res.json();
       }).then(data => {
-        // new Mapbox.Maker().LngLat([data.features[0].bbox[0], data.features[0].bbox[1]]).addTo(this.mapbox)
         const coordinates = {lng: data.features[0].center[0], lat: data.features[0].center[1]}
         this.coordinates.push(coordinates);
         console.log(this.coordinates)
