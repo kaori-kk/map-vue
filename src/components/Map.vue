@@ -1,6 +1,7 @@
 <template>
 <div>
-  <input type="text" placeholder='Type Country Name...' v-model='query' @keypress='fetchMap'>
+  <h2>Where Have You Been...?</h2>
+  <input type="text" placeholder='Type Coutry/City...' v-model='query' @keypress='fetchMap' class="input">
   <MglMap
     :accessToken="accessToken"
     :mapStyle.sync ="mapStyle"
@@ -73,6 +74,11 @@ export default class extends Vue {
 
 .mgl-map-wrapper {
   height: 500px;
+}
+
+.input{
+  padding: 15px;
+  margin: 15px;
 }
 
 </style>
